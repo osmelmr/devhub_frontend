@@ -1,7 +1,7 @@
 export type TodoType = {
   id: number;
-  title: string;
-  completed: boolean;
+  text: string;
+  done: boolean;
 };
 
 export type TodoList = TodoType[];
