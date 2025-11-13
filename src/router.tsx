@@ -4,6 +4,7 @@ import { Index } from "./layouts/Index";
 import { Projects } from "./pages/Projects";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import { TodosPage } from "./projects/todo-list/pages/TodosPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "projects/todo-list",
+        element: <TodosPage />,
       },
     ],
   },
