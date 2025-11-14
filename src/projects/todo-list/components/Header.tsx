@@ -8,6 +8,7 @@ export const Header = () => {
     const input = document.getElementById("input-todo") as HTMLInputElement;
     const text: string = input.value;
     dispatch(addTodo(text));
+    input.value = "";
   };
   return (
     <>

@@ -2,11 +2,11 @@ import { ListOfTodos } from "../components/ListOfTodos";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Manager } from "../components/Manager";
-import { useAppSelector } from "../../../redux/hooks";
+import { useTodos } from "../hooks/useTodos";
+import type { TodosHookType } from "../types";
 
 export function TodosPage() {
-  const todos = useAppSelector((state) => state.todos);
-
+  const filters: TodosHookType = useTodos();
   return (
     <main className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
       {/* Contenedor principal */}
@@ -14,10 +14,10 @@ export function TodosPage() {
         {/* Encabezado */}
         <Header />
         {/* Controles */}
-        <Manager todos={todos} />
+        <Manager {...filters} />
 
         {/* Lista de tareas */}
-        <ListOfTodos todos={todos} />
+        <ListOfTodos todos={filters.todos} />
         {/* Pie */}
         <Footer />
       </section>

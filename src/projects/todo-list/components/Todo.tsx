@@ -84,7 +84,9 @@ export const Todo: React.FC<TodoProps> = ({ todo }) => {
               />
             </form>
           ) : (
-            <p onDoubleClick={() => handleEdit(todo.id)}>{todo.text}</p>
+            <p onDoubleClick={() => handleEdit(todo.id)} className="px-2 py-1">
+              {todo.text}
+            </p>
           )}
         </span>
       </div>

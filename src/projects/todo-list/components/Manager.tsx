@@ -1,10 +1,12 @@
-import type { TodoList } from "../types";
+import type { TodosHookType } from "../types";
+import { ListOfTodos } from "./ListOfTodos";
 
-type ManagerProps = {
-  todos: TodoList;
-};
-
-export const Manager: React.FC<ManagerProps> = ({ todos }) => {
+export const Manager = ({
+  todos,
+  allTodos,
+  doneTodos,
+  undoneTodos,
+}: TodosHookType) => {
   return (
     <>
       <div className="flex justify-between items-center mb-4 text-sm text-gray-600">
@@ -14,13 +16,22 @@ export const Manager: React.FC<ManagerProps> = ({ todos }) => {
         </div>
 
         <div className="flex gap-2">
-          <button className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">
+          <button
+            onClick={allTodos}
+            className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300"
+          >
             Todas
           </button>
-          <button className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">
+          <button
+            onClick={undoneTodos}
+            className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300"
+          >
             Activas
           </button>
-          <button className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">
+          <button
+            onClick={doneTodos}
+            className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300"
+          >
             Completas
           </button>
         </div>

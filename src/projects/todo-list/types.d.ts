@@ -5,3 +5,10 @@ export type TodoType = {
 };
 
 export type TodoList = TodoType[];
+
+export interface TodosHookType {
+  todos: TodoList;
+  doneTodos: () => void;
+  undoneTodos: () => void;
+  allTodos: () => void;
+}
