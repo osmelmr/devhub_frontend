@@ -4,7 +4,7 @@ import { Index } from "./layouts/Index";
 import { Projects } from "./pages/Projects";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import { TodosPage } from "./projects/todo-list/pages/TodosPage";
+import { TodosMain } from "./projects/todo-list/TodosMain";
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "projects/todo-list",
-        element: <TodosPage />,
+        element: <TodosMain />,
       },
     ],
   },

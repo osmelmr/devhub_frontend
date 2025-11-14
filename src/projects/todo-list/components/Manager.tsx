@@ -1,5 +1,4 @@
 import type { TodosHookType } from "../types";
-import { ListOfTodos } from "./ListOfTodos";
 
 export const Manager = ({
   todos,

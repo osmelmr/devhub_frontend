@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, use } from "react";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useState, useRef, useEffect } from "react";
+import { useAppDispatch } from "../redux/storeHooks";
 import { removeTodo, editTodo, toggleTodo } from "../redux/todosSlice";
 import type { TodoType } from "../types";
 
@@ -45,7 +45,7 @@ export const Todo: React.FC<TodoProps> = ({ todo }) => {
     refEditting.current = false;
     setEditState(refEditting.current);
   };
-  const handleEdit = (id: number) => {
+  const handleEdit = () => {
     refEditting.current = refEditting.current ? false : true;
     setEditState(refEditting.current);
   };
@@ -84,7 +84,7 @@ export const Todo: React.FC<TodoProps> = ({ todo }) => {
               />
             </form>
           ) : (
-            <p onDoubleClick={() => handleEdit(todo.id)} className="px-2 py-1">
+            <p onDoubleClick={handleEdit} className="px-2 py-1">
               {todo.text}
             </p>
           )}
@@ -96,7 +96,7 @@ export const Todo: React.FC<TodoProps> = ({ todo }) => {
           <>
             <button
               className="text-blue-500 hover:text-blue-700 text-sm"
-              onClick={() => handleEdit(todo.id)}
+              onClick={handleEdit}
             >
               Editar
             </button>

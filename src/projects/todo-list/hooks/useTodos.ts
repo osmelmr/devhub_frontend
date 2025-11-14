@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from "react";
-import { useAppSelector } from "../../../redux/hooks";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../redux/storeHooks";
 import type { TodoType } from "../types";
 import type { TodoList } from "../types";
 

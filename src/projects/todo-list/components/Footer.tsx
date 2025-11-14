@@ -1,4 +1,4 @@
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch } from "../redux/storeHooks";
 import { removeDone } from "../redux/todosSlice";
 
 export const Footer = () => {
