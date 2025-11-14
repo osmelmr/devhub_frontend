@@ -4,7 +4,7 @@ import type { TodoList, TodoType } from "../types";
 // Datos simulados
 const todos = [
   { id: 1, text: "Terminar el proyecto de React", done: true },
-  { id: 2, text: "Estudiar PL/pgSQL", done: false },
+  { id: 2, text: "Estudiar PL/pgSQL", done: true },
   { id: 3, text: "Revisar correos del trabajo", done: false },
 ];
 const initialState: TodoList = todos;
