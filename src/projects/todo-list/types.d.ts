@@ -11,4 +11,5 @@ export interface TodosHookType {
   doneTodos: () => void;
   undoneTodos: () => void;
   allTodos: () => void;
+  setTodos: (todos: TodoList) => void;
 }

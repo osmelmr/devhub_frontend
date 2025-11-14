@@ -23,5 +23,5 @@ export const useTodos = () => {
     setTodos(todosState);
   };
 
-  return { todos, doneTodos, undoneTodos, allTodos };
+  return { todos, doneTodos, undoneTodos, allTodos, setTodos };
 };

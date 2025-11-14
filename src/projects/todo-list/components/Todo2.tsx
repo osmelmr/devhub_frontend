@@ -1,36 +1,25 @@
+import { useState, useRef, useEffect } from "react";
 import { useAppDispatch } from "../redux/storeHooks";
 import { removeTodo, editTodo, toggleTodo } from "../redux/todosSlice";
 import type { TodoType } from "../types";
-import { useTodo } from "../hooks/useTodo";
 
 type TodoProps = {
-  key: number;
   todo: TodoType;
-  onDragStart: (index: number) => void;
-  onDrop: (index: number) => void;
-  index: number;
 };
 
-export const Todo: React.FC<TodoProps> = ({
-  todo,
-  onDragStart,
-  index,
-  onDrop,
-}) => {
-  const { setEditState, refEditting, refInput } = useTodo();
+export const Todo: React.FC<TodoProps> = ({ todo }) => {
+  const refEditting = useRef(false);
+  const [editState, setEditState] = useState(false);
 
-  // manejo de edicion
-  const handleEdit = () => {
-    refEditting.current = refEditting.current ? false : true;
-    setEditState(refEditting.current);
-  };
-  const handleCancel = () => {
-    refEditting.current = false;
-    setEditState(refEditting.current);
-  };
-  // fin manejo de edicion
+  const refInput = useRef<HTMLInputElement | null>(null);
 
-  // bloque edicion de estado global
+  useEffect(() => {
+    if (editState && refInput.current) {
+      refInput.current.focus();
+      refInput.current.select();
+    }
+  }, [editState]);
+
   const dispatch = useAppDispatch();
 
   const handleDelete = (id: number) => {
@@ -56,13 +45,16 @@ export const Todo: React.FC<TodoProps> = ({
     refEditting.current = false;
     setEditState(refEditting.current);
   };
-  // fin del bloque edicion de estado global
+  const handleEdit = () => {
+    refEditting.current = refEditting.current ? false : true;
+    setEditState(refEditting.current);
+  };
+  const handleCancel = () => {
+    refEditting.current = false;
+    setEditState(refEditting.current);
+  };
   return (
     <li
-      draggable
-      onDragStart={() => onDragStart(index)}
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={() => onDrop(index)}
       className={`flex items-center justify-between bg-gray-50 p-3 rounded-xl border ${
         todo.done ? "border-green-400" : "border-gray-200"
       }`}

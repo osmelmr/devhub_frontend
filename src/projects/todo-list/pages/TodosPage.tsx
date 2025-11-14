@@ -17,7 +17,7 @@ export function TodosPage() {
         <Manager {...filters} />
 
         {/* Lista de tareas */}
-        <ListOfTodos todos={filters.todos} />
+        <ListOfTodos todos={filters.todos} setTodos={filters.setTodos} />
         {/* Pie */}
         <Footer />
       </section>
