@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// imagen del todo list real: https://imgur.com/a/PUFAzll
 
 interface Project {
   id: string;
@@ -21,7 +22,7 @@ export const Projects: React.FC = () => {
         title: "Todo List",
         slug: "todo-list",
         description: "Gestor de tareas con React y Redux Toolkit.",
-        thumbnail: "https://source.unsplash.com/400x250/?productivity,code",
+        thumbnail: "https://i.imgur.com/VZevIct.png",
         tech_stack: ["React", "TypeScript", "Redux Toolkit"],
         status: "published",
       },

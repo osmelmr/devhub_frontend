@@ -7,6 +7,10 @@ import type { TodosHookType } from "../types";
 
 export function TodosPage() {
   const filters: TodosHookType = useTodos();
+  // const limpiarStorage = () => {
+  //   localStorage.removeItem("todos");
+  // };
+
   return (
     <main className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
       {/* Contenedor principal */}
@@ -17,10 +21,11 @@ export function TodosPage() {
         <Manager {...filters} />
 
         {/* Lista de tareas */}
-        <ListOfTodos todos={filters.todos} setTodos={filters.setTodos} />
+        <ListOfTodos todos={filters.todos} />
         {/* Pie */}
         <Footer />
       </section>
+      {/* <button onClick={limpiarStorage}>limpiar storage</button> */}
     </main>
   );
 }
