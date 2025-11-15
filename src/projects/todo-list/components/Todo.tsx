@@ -4,7 +4,7 @@ import type { TodoType } from "../types";
 import { useTodo } from "../hooks/useTodo";
 
 type TodoProps = {
-  key: number;
+  key: string;
   todo: TodoType;
   onDragStart: (index: number) => void;
   onDrop: (index: number) => void;
@@ -33,10 +33,10 @@ export const Todo: React.FC<TodoProps> = ({
   // bloque edicion de estado global
   const dispatch = useAppDispatch();
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     dispatch(removeTodo(id));
   };
-  const handleToggle = (id: number) => {
+  const handleToggle = (id: string) => {
     dispatch(toggleTodo(id));
   };
   type SaveParams = {

@@ -12,7 +12,7 @@ export const Footer = () => {
         <button onClick={handleClick} className="hover:text-red-500">
           Limpiar completadas
         </button>
-        {/* <span className="italic">Tip: arrastra para reordenar</span> */}
+        <span className="italic">Tip: arrastra para reordenar</span>
       </footer>
     </>
   );

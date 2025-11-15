@@ -1,5 +1,5 @@
 export type TodoType = {
-  id: number;
+  id: string;
   text: string;
   done: boolean;
 };
@@ -11,5 +11,4 @@ export interface TodosHookType {
   doneTodos: () => void;
   undoneTodos: () => void;
   allTodos: () => void;
-  setTodos: (todos: TodoList) => void;
 }
