@@ -6,6 +6,7 @@ const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const [user, setUser] = useState<{ name?: string; username?: string } | null>(
     null
@@ -14,35 +15,25 @@ const Header: React.FC = () => {
   const userMenuRef = useRef<HTMLLIElement | null>(null);
   const navigate = useNavigate();
 
-  /* ---------------------------------------------------
-     Cargar usuario y autenticación simulada
-  ---------------------------------------------------- */
+  // Simulación de usuario
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (token) {
+    if (true) {
       setIsAuth(true);
-
-      setUser({
-        name: "Osmel",
-        username: "osmel.dev",
-      });
+      setUser({ name: "Osmel", username: "osmel.dev" });
     } else {
       setIsAuth(false);
       setUser(null);
     }
   }, []);
 
-  /* ---------------------------------------------------
-     BOTÓN DE TEMA (SOLO ICONO — SIN CAMBIAR TEMA)
-  ---------------------------------------------------- */
-  const toggleTheme = () => {
-    console.log("Aquí se cambiaría el tema (pendiente)");
-  };
+  // Aplicar tema dark/light en <html>
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
-  /* ---------------------------------------------------
-     Cerrar dropdown si clic fuera
-  ---------------------------------------------------- */
+  // Cerrar dropdown si clic fuera
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -56,9 +47,6 @@ const Header: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  /* ---------------------------------------------------
-     Logout
-  ---------------------------------------------------- */
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsAuth(false);
@@ -67,40 +55,52 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 transition-colors">
       <nav className="container mx-auto flex items-center justify-between p-4">
         {/* LOGO */}
-        <Link to="/" className="text-2xl font-bold text-blue-600">
+        <Link
+          to="/"
+          className="text-2xl font-bold text-blue-600 dark:text-blue-400"
+        >
           DevHub
         </Link>
 
         {/* MENU DESKTOP */}
-        <ul className="hidden md:flex space-x-8 font-medium items-center">
+        <ul className="hidden md:flex space-x-8 font-medium items-center text-gray-800 dark:text-gray-200">
           <li>
-            <Link to="/projects" className="hover:text-blue-600">
+            <Link
+              to="/projects"
+              className="hover:text-blue-600 dark:hover:text-blue-400"
+            >
               Proyectos
             </Link>
           </li>
 
           <li>
-            <Link to="/about" className="hover:text-blue-600">
+            <Link
+              to="/about"
+              className="hover:text-blue-600 dark:hover:text-blue-400"
+            >
               Sobre mí
             </Link>
           </li>
 
           <li>
-            <Link to="/contact" className="hover:text-blue-600">
+            <Link
+              to="/contact"
+              className="hover:text-blue-600 dark:hover:text-blue-400"
+            >
               Contacto
             </Link>
           </li>
 
-          {/* BOTÓN DE TEMA (solo icono, sin cambiar tema) */}
+          {/* BOTÓN DE TEMA */}
           <li>
             <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 hover:scale-105 transition"
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:scale-105 transition"
             >
-              <FaMoon />
+              {darkMode ? <FaSun /> : <FaMoon />}
             </button>
           </li>
 
@@ -118,7 +118,7 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/register"
-                  className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
+                  className="px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
                 >
                   Registrarse
                 </Link>
@@ -128,8 +128,13 @@ const Header: React.FC = () => {
             <li className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
+                className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
               >
+                <img
+                  src="https://res.cloudinary.com/dctwk3rlf/image/upload/v1763953034/fdn44ch37fuhcjivb6br.png"
+                  alt="avatar"
+                  className="w-6 h-6 rounded-full object-cover"
+                />
                 <span className="font-semibold">
                   {user?.name ? user.name : user?.username}
                 </span>
@@ -137,24 +142,24 @@ const Header: React.FC = () => {
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 shadow-lg rounded-md">
+                <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-md">
                   <Link
                     to="/account"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                     onClick={() => setUserMenuOpen(false)}
                   >
                     Perfil
                   </Link>
                   <Link
                     to="/dashboard"
-                    className="block px-4 py-2 hover:bg-gray-100"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                     onClick={() => setUserMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 hover:bg-red-100 text-red-600"
+                    className="block w-full text-left px-4 py-2 hover:bg-red-100 dark:hover:bg-red-700 text-red-600 dark:text-red-400"
                   >
                     Logout
                   </button>
@@ -167,7 +172,7 @@ const Header: React.FC = () => {
         {/* BOTÓN MOBILE */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-xl"
+          className="md:hidden text-xl text-gray-800 dark:text-gray-200"
         >
           ☰
         </button>
@@ -175,15 +180,15 @@ const Header: React.FC = () => {
 
       {/* MENU MOBILE */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
-          <ul className="flex flex-col items-center py-4 space-y-3 font-medium">
+        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 transition-colors">
+          <ul className="flex flex-col items-center py-4 space-y-3 font-medium text-gray-800 dark:text-gray-200">
             {/* THEME MOBILE */}
             <li>
               <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full bg-gray-200 hover:scale-105 transition"
+                onClick={() => setDarkMode(!darkMode)}
+                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:scale-105 transition"
               >
-                <FaMoon />
+                {darkMode ? <FaSun /> : <FaMoon />}
               </button>
             </li>
 
@@ -221,7 +226,7 @@ const Header: React.FC = () => {
                   <Link
                     to="/register"
                     onClick={() => setMenuOpen(false)}
-                    className="px-4 py-2 rounded-md bg-gray-200"
+                    className="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 dark:text-gray-200"
                   >
                     Registrarse
                   </Link>
@@ -245,7 +250,7 @@ const Header: React.FC = () => {
                       handleLogout();
                       setMenuOpen(false);
                     }}
-                    className="text-red-600"
+                    className="text-red-600 dark:text-red-400"
                   >
                     Logout
                   </button>

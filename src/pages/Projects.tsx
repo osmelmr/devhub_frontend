@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// imagen del todo list real: https://imgur.com/a/PUFAzll
 
 interface Project {
   id: string;
@@ -14,7 +13,6 @@ interface Project {
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
 
-  // Simulación de carga de datos (en producción harás fetch desde tu API)
   useEffect(() => {
     const mockProjects: Project[] = [
       {
@@ -46,55 +44,51 @@ export const Projects: React.FC = () => {
         status: "draft",
       },
     ];
+
     setProjects(mockProjects);
   }, []);
 
   return (
-    <main className="container mx-auto px-4 py-12">
-      {/* Título principal */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+    <main className="container mx-auto px-4 py-12 bg-white dark:bg-gray-900 transition-colors">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
         Mis Proyectos
       </h1>
 
-      {/* Grid de proyectos */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <article
             key={project.id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
           >
-            {/* Imagen */}
             <img
               src={project.thumbnail}
               alt={project.title}
               className="w-full h-48 object-cover"
             />
 
-            {/* Contenido */}
             <div className="p-5">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
                 {project.title}
               </h2>
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+
+              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                 {project.description}
               </p>
 
-              {/* Tech Stack */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tech_stack.map((tech) => (
                   <span
                     key={tech}
-                    className="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded-full"
+                    className="bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-100 text-xs font-medium px-2 py-1 rounded-full"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              {/* Botón o enlace */}
               <a
                 href={`/projects/${project.slug}`}
-                className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+                className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
               >
                 Ver Proyecto
               </a>
@@ -103,9 +97,8 @@ export const Projects: React.FC = () => {
         ))}
       </div>
 
-      {/* Mensaje si no hay proyectos */}
       {projects.length === 0 && (
-        <p className="text-center text-gray-500 mt-8">
+        <p className="text-center text-gray-500 dark:text-gray-300 mt-8">
           No hay proyectos disponibles aún.
         </p>
       )}

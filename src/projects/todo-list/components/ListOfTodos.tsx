@@ -21,7 +21,7 @@ export const ListOfTodos: React.FC<Props> = ({ todos }) => {
 
   return (
     <>
-      <ul className="space-y-3">
+      <ul className="space-y-3 dark:space-y-3">
         {todos.map((todo, index) => (
           <Todo
             key={todo.id}

@@ -19,13 +19,15 @@ import {
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col items-center py-12 px-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col items-center py-12 px-6 transition-colors">
       {/* ---------- Presentación ---------- */}
       <section className="max-w-4xl text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4 text-indigo-600">Sobre mí</h1>
+        <h1 className="text-4xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">
+          Sobre mí
+        </h1>
         <p className="text-lg leading-relaxed">
           ¡Hola! Soy{" "}
-          <span className="font-semibold text-indigo-700">
+          <span className="font-semibold text-indigo-700 dark:text-indigo-300">
             Osmel Medero Rosales
           </span>
           , desarrollador web especializado en{" "}
@@ -38,15 +40,16 @@ export default function About() {
 
       {/* ---------- Habilidades técnicas ---------- */}
       <section className="max-w-4xl mb-10">
-        <h2 className="text-2xl font-bold text-indigo-600 mb-4 text-center">
+        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-4 text-center">
           Habilidades Técnicas
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Lenguajes */}
-          <div className="bg-white shadow rounded-2xl p-6">
+          <div className="bg-white dark:bg-gray-800 shadow rounded-2xl p-6 transition-colors">
             <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-              <FaCode className="text-indigo-500" /> Lenguajes
+              <FaCode className="text-indigo-500 dark:text-indigo-300" />{" "}
+              Lenguajes
             </h3>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
@@ -56,7 +59,8 @@ export default function About() {
                 <FaPython className="text-blue-500" /> Python
               </li>
               <li className="flex items-center gap-2">
-                <SiCplusplus className="text-indigo-700" /> C++
+                <SiCplusplus className="text-indigo-700 dark:text-indigo-300" />{" "}
+                C++
               </li>
               <li className="flex items-center gap-2">
                 <FaJava className="text-red-500" /> Java
@@ -68,16 +72,18 @@ export default function About() {
           </div>
 
           {/* Frameworks y gestores */}
-          <div className="bg-white shadow rounded-2xl p-6">
+          <div className="bg-white dark:bg-gray-800 shadow rounded-2xl p-6 transition-colors">
             <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-              <FaReact className="text-cyan-500" /> Frameworks y gestores
+              <FaReact className="text-cyan-500 dark:text-cyan-300" />{" "}
+              Frameworks y gestores
             </h3>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
                 <FaReact className="text-sky-400" /> React
               </li>
               <li className="flex items-center gap-2">
-                <SiDjango className="text-green-700" /> Django
+                <SiDjango className="text-green-700 dark:text-green-400" />{" "}
+                Django
               </li>
               <li className="flex items-center gap-2">
                 <FaCogs className="text-red-500" /> Django REST Framework
@@ -87,7 +93,7 @@ export default function About() {
               </li>
               <li className="flex items-center gap-2">
                 <FaGitAlt className="text-orange-500" /> Git &{" "}
-                <FaGithub className="text-gray-800" /> GitHub
+                <FaGithub className="text-gray-800 dark:text-gray-200" /> GitHub
               </li>
             </ul>
           </div>
@@ -96,7 +102,7 @@ export default function About() {
 
       {/* ---------- Especialidad ---------- */}
       <section className="max-w-3xl mb-10 text-center">
-        <h2 className="text-2xl font-bold text-indigo-600 mb-4">
+        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
           Especialidad
         </h2>
         <p className="text-lg leading-relaxed">
@@ -109,25 +115,29 @@ export default function About() {
 
       {/* ---------- Contacto ---------- */}
       <section className="max-w-3xl text-center">
-        <h2 className="text-2xl font-bold text-indigo-600 mb-4">Contacto</h2>
+        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
+          Contacto
+        </h2>
         <div className="flex flex-col items-center gap-3">
           <a
             href="mailto:osmelmr.dev@gmail.com"
-            className="flex items-center gap-2 text-indigo-700 hover:underline"
+            className="flex items-center gap-2 text-indigo-700 dark:text-indigo-300 hover:underline"
           >
             <FaEnvelope /> osmelmr.dev@gmail.com
           </a>
+
           <a
             href="tel:+53963967194"
-            className="flex items-center gap-2 text-indigo-700 hover:underline"
+            className="flex items-center gap-2 text-indigo-700 dark:text-indigo-300 hover:underline"
           >
             <FaPhone /> 63967194
           </a>
+
           <a
             href="https://github.com/ormelmr"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-indigo-700 hover:underline"
+            className="flex items-center gap-2 text-indigo-700 dark:text-indigo-300 hover:underline"
           >
             <FaGithub /> github.com/ormelmr
           </a>

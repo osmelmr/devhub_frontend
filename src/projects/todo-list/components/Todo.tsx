@@ -65,20 +65,20 @@ export const Todo: React.FC<TodoProps> = ({
       onDrop={() => onDrop(index)}
       className={`flex items-center justify-between bg-gray-50 p-3 rounded-xl border ${
         todo.done ? "border-green-400" : "border-gray-200"
-      }`}
+      } dark:bg-gray-800 dark:border-gray-700`}
     >
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
           defaultChecked={todo.done}
-          className="w-4 h-4 text-indigo-600 accent-indigo-600"
+          className="w-4 h-4 text-indigo-600 accent-indigo-600 dark:accent-indigo-400"
           onChange={() => handleToggle(todo.id)}
         />
         <span
           className={`${
             todo.done && !refEditting.current
-              ? "line-through text-gray-400"
-              : "text-gray-800"
+              ? "line-through text-gray-400 dark:text-gray-500"
+              : "text-gray-800 dark:text-gray-200"
           }`}
         >
           {refEditting.current ? (
@@ -88,7 +88,7 @@ export const Todo: React.FC<TodoProps> = ({
                 id={`edit-todo-${todo.id}`}
                 ref={refInput}
                 defaultValue={todo.text}
-                className="border border-gray-300 rounded-xl px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="border border-gray-300 rounded-xl px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-300"
               />
             </form>
           ) : (
@@ -103,13 +103,13 @@ export const Todo: React.FC<TodoProps> = ({
         {!refEditting.current ? (
           <>
             <button
-              className="text-blue-500 hover:text-blue-700 text-sm"
+              className="text-blue-500 hover:text-blue-700 text-sm dark:text-blue-300 dark:hover:text-blue-400"
               onClick={handleEdit}
             >
               Editar
             </button>
             <button
-              className="text-red-500 hover:text-red-700 text-sm"
+              className="text-red-500 hover:text-red-700 text-sm dark:text-red-400 dark:hover:text-red-500"
               onClick={() => handleDelete(todo.id)}
             >
               Eliminar
@@ -118,7 +118,7 @@ export const Todo: React.FC<TodoProps> = ({
         ) : (
           <>
             <button
-              className="text-green-500 hover:text-blue-700 text-sm"
+              className="text-green-500 hover:text-blue-700 text-sm dark:text-green-400 dark:hover:text-green-300"
               onClick={() => {
                 const e = null;
                 return handleSave({ e, todo });
@@ -127,7 +127,7 @@ export const Todo: React.FC<TodoProps> = ({
               Save
             </button>
             <button
-              className="text-red-500 hover:text-red-700 text-sm"
+              className="text-red-500 hover:text-red-700 text-sm dark:text-red-400 dark:hover:text-red-500"
               onClick={handleCancel}
             >
               cancel

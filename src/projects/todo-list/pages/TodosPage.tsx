@@ -12,9 +12,9 @@ export function TodosPage() {
   // };
 
   return (
-    <main className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
+    <main className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center py-10 px-4">
       {/* Contenedor principal */}
-      <section className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
+      <section className="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6">
         {/* Encabezado */}
         <Header />
         {/* Controles */}
