@@ -53,7 +53,6 @@ export const useFilters = ({ filters, setTodos }: PropsFilter) => {
   const aplyFilters = (filters: FiltersType) => {
     const stringStorageTodos: string = localStorage.getItem("todos") as string;
     const todos: TodoList = JSON.parse(stringStorageTodos);
-    console.log(todos);
 
     if (filters.doneTodos && !filters.allTodos) {
       setTodos(todos.filter((t: TodoType) => t.done));

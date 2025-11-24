@@ -187,17 +187,20 @@ function LearningMindset() {
 
 function CallToAction() {
   return (
-    <section className="bg-indigo-600 px-6 py-12 text-white lg:px-8 dark:bg-indigo-700">
+    <section className="bg-indigo-600 px-6 py-12 text-white lg:px-8 dark:bg-indigo-900">
       <div className="mx-auto max-w-6xl flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-2xl font-semibold">Explora mi portafolio</h2>
-          <p className="mt-2 text-sm opacity-90">
+          <h2 className="text-2xl font-semibold dark:text-indigo-100">
+            Explora mi portafolio
+          </h2>
+          <p className="mt-2 text-sm opacity-90 dark:text-indigo-200">
             Proyectos, repositorios y aprendizajes en constante evolución.
           </p>
         </div>
         <Link
           to="/projects"
-          className="rounded-md bg-white px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 dark:text-indigo-200 dark:hover:bg-indigo-600"
+          className="rounded-md bg-white px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 
+                 dark:bg-indigo-200 dark:text-indigo-900 dark:hover:bg-indigo-300 transition-colors"
         >
           Ver proyectos
         </Link>
