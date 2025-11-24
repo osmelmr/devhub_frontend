@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useAppSelector } from "../redux/hooks";
 
 interface Project {
   id: string;
@@ -11,46 +12,40 @@ interface Project {
 }
 
 export const Projects: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const dark = document.documentElement.classList.contains("dark");
+  const dark = useAppSelector((teme) => teme.teme);
 
-  useEffect(() => {
-    const mockProjects: Project[] = [
-      {
-        id: "1",
-        title: "Todo List",
-        slug: "todo-list",
-        description: "Gestor de tareas con React y Redux Toolkit.",
-        thumbnail: dark
-          ? "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763957570/fcseiouw9htgnjjjkrrt.png"
-          : "https://i.imgur.com/VZevIct.png",
-        tech_stack: ["React", "TypeScript", "Redux Toolkit"],
-        status: "published",
-      },
-
-      {
-        id: "2",
-        title: "Weather App",
-        slug: "weather-app",
-        description:
-          "Aplicación meteorológica con API externa y hooks personalizados.",
-        thumbnail: "https://source.unsplash.com/400x250/?weather,app",
-        tech_stack: ["React", "Vite", "Tailwind", "OpenWeather API"],
-        status: "published",
-      },
-      {
-        id: "3",
-        title: "Portfolio CMS",
-        slug: "portfolio-cms",
-        description: "Panel para gestionar los proyectos de DevHub.",
-        thumbnail: "https://source.unsplash.com/400x250/?dashboard,developer",
-        tech_stack: ["Django REST", "React", "JWT Auth"],
-        status: "draft",
-      },
-    ];
-
-    setProjects(mockProjects);
-  }, []);
+  const projects: Project[] = [
+    {
+      id: "1",
+      title: "Todo List",
+      slug: "todo-list",
+      description: "Gestor de tareas con React y Redux Toolkit.",
+      thumbnail: dark
+        ? "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763957570/fcseiouw9htgnjjjkrrt.png"
+        : "https://i.imgur.com/VZevIct.png",
+      tech_stack: ["React", "TypeScript", "Redux Toolkit"],
+      status: "published",
+    },
+    {
+      id: "2",
+      title: "Weather App",
+      slug: "weather-app",
+      description:
+        "Aplicación meteorológica con API externa y hooks personalizados.",
+      thumbnail: "https://source.unsplash.com/400x250/?weather,app",
+      tech_stack: ["React", "Vite", "Tailwind", "OpenWeather API"],
+      status: "published",
+    },
+    {
+      id: "3",
+      title: "Portfolio CMS",
+      slug: "portfolio-cms",
+      description: "Panel para gestionar los proyectos de DevHub.",
+      thumbnail: "https://source.unsplash.com/400x250/?dashboard,developer",
+      tech_stack: ["Django REST", "React", "JWT Auth"],
+      status: "draft",
+    },
+  ];
 
   return (
     <main className="container mx-auto px-4 py-12 bg-white dark:bg-gray-900 transition-colors">
@@ -65,7 +60,13 @@ export const Projects: React.FC = () => {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
           >
             <img
-              src={project.thumbnail}
+              src={
+                project.id === "1"
+                  ? dark
+                    ? "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763957570/fcseiouw9htgnjjjkrrt.png"
+                    : "https://i.imgur.com/VZevIct.png"
+                  : project.thumbnail
+              }
               alt={project.title}
               className="w-full h-48 object-cover"
             />

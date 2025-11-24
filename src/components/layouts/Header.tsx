@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSun, FaMoon } from "react-icons/fa";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { toggleTeme } from "../../redux/temeSlice";
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = useAppSelector((teme) => teme.teme);
+  const dispatch = useAppDispatch();
 
   const [user, setUser] = useState<{ name?: string; username?: string } | null>(
     null
@@ -97,7 +100,7 @@ const Header: React.FC = () => {
           {/* BOTÓN DE TEMA */}
           <li>
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={() => dispatch(toggleTeme())} // CORRECTO
               className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:scale-105 transition"
             >
               {darkMode ? <FaSun /> : <FaMoon />}
@@ -185,7 +188,7 @@ const Header: React.FC = () => {
             {/* THEME MOBILE */}
             <li>
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => dispatch(toggleTeme())} // USAR REDUX TAMBIÉN
                 className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:scale-105 transition"
               >
                 {darkMode ? <FaSun /> : <FaMoon />}
