@@ -7,6 +7,7 @@ import { Projects } from "./pages/Projects";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import { TodosMain } from "./projects/todo-list/TodosMain";
+import { CloudinaryExample } from "./components/CloudinaryExample";
 
 export const router = createBrowserRouter([
   {
@@ -42,5 +43,9 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/example",
+    element: <CloudinaryExample />,
   },
 ]);
