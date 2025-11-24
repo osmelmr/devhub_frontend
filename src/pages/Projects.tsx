@@ -12,6 +12,7 @@ interface Project {
 
 export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const dark = document.documentElement.classList.contains("dark");
 
   useEffect(() => {
     const mockProjects: Project[] = [
@@ -20,10 +21,13 @@ export const Projects: React.FC = () => {
         title: "Todo List",
         slug: "todo-list",
         description: "Gestor de tareas con React y Redux Toolkit.",
-        thumbnail: "https://i.imgur.com/VZevIct.png",
+        thumbnail: dark
+          ? "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763957570/fcseiouw9htgnjjjkrrt.png"
+          : "https://i.imgur.com/VZevIct.png",
         tech_stack: ["React", "TypeScript", "Redux Toolkit"],
         status: "published",
       },
+
       {
         id: "2",
         title: "Weather App",
