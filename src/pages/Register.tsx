@@ -1,8 +1,79 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { createUser } from "../apis/usersApis";
+
+const registerSchema = z
+  .object({
+    username: z
+      .string()
+      .min(1, "El usuario es obligatorio")
+      .max(50, "Máximo 50 caracteres"),
+
+    password: z
+      .string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .max(100, "Máximo 100 caracteres"),
+
+    password_confirm: z.string().min(6, "Debes confirmar la contraseña"),
+
+    first_name: z
+      .string()
+      .max(100, "Máximo 100 caracteres")
+      .optional()
+      .or(z.literal("")),
+
+    email: z.string().email("Correo no válido").optional().or(z.literal("")),
+
+    avatar_url: z
+      .string()
+      .url("Debe ser una URL válida")
+      .optional()
+      .or(z.literal("")),
+
+    avatar_file: z
+      .any()
+      .optional()
+      .refine(
+        (fileList) => {
+          if (!fileList) return true;
+          const file = fileList[0];
+          if (!file) return true;
+
+          const maxSize = 10 * 1024 * 1024;
+          if (file.size > maxSize) return false;
+
+          const allowed = ["image/jpeg", "image/png", "image/webp"];
+          return allowed.includes(file.type);
+        },
+        {
+          message:
+            "Debe ser una imagen válida (JPG, PNG, WEBP) de menos de 10 MB",
+        }
+      ),
+  })
+  .refine((data) => data.password === data.password_confirm, {
+    message: "Las contraseñas no coinciden",
+    path: ["password_confirm"],
+  });
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function Register() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+  });
+
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
+  const avatarInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -11,17 +82,56 @@ export function Register() {
     const reader = new FileReader();
     reader.onload = () => setAvatarPreview(reader.result as string);
     reader.readAsDataURL(file);
+
+    // Registrar el archivo en react-hook-form
+    setValue("avatar_file", e.target.files as any);
+  };
+
+  const clearAvatar = () => {
+    setAvatarPreview(null);
+    setValue("avatar_file", undefined);
+    setValue("avatar_url", "");
+
+    if (avatarInputRef.current) {
+      avatarInputRef.current.value = "";
+    }
+  };
+
+  const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
+
+  const onSubmit = async (data: RegisterFormData) => {
+    let url = "";
+
+    if (data.avatar_file && data.avatar_file[0]) {
+      const formData = new FormData();
+      formData.append("file", data.avatar_file[0]);
+      formData.append("upload_preset", "portfolio_avatars");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const res = await response.json();
+      url = res.secure_url;
+    }
+
+    data.avatar_url = url;
+
+    const res = await createUser(data);
+    console.log(res);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6">
-        {/* Título */}
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-4">
           Crear Cuenta
         </h2>
 
-        {/* Avatar al inicio */}
         <div className="flex flex-col items-center mb-6">
           <div className="w-24 h-24 rounded-full border border-gray-400 dark:border-gray-600 shadow-md flex items-center justify-center overflow-hidden bg-gray-200 dark:bg-gray-700">
             {avatarPreview ? (
@@ -37,93 +147,133 @@ export function Register() {
             )}
           </div>
 
-          {/* Input de archivo */}
           <label className="mt-3 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer">
             Seleccionar avatar
             <input
               type="file"
               accept="image/*"
-              onChange={handleAvatarChange}
               className="hidden"
+              {...register("avatar_file")}
+              onChange={handleAvatarChange}
+              ref={avatarInputRef}
             />
           </label>
+
+          {avatarPreview && (
+            <button
+              onClick={clearAvatar}
+              type="button"
+              className="mt-2 text-red-500 text-sm font-medium hover:underline"
+            >
+              Quitar avatar
+            </button>
+          )}
+
+          {errors.avatar_file && (
+            <p className="text-red-500 text-sm mt-1">
+              {`${errors.avatar_file.message}`}
+            </p>
+          )}
         </div>
 
-        {/* Formulario */}
-        <form className="space-y-4">
-          {/* Nombre */}
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className="block text-sm font-medium mb-1 dark:text-gray-300">
-              Nombre completo
+              Nombre
             </label>
             <input
               type="text"
+              {...register("first_name")}
               className="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 
                          dark:text-white border border-gray-300 dark:border-gray-600 
                          focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Tu nombre"
             />
+            {errors.first_name && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.first_name.message}
+              </p>
+            )}
           </div>
 
-          {/* Username */}
           <div>
             <label className="block text-sm font-medium mb-1 dark:text-gray-300">
               Usuario (obligatorio)
             </label>
             <input
               type="text"
+              {...register("username")}
               className="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 
                          dark:text-white border border-gray-300 dark:border-gray-600 
                          focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Nombre de usuario"
             />
+            {errors.username && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.username.message}
+              </p>
+            )}
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium mb-1 dark:text-gray-300">
               Correo (opcional)
             </label>
             <input
               type="email"
+              {...register("email")}
               className="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 
                          dark:text-white border border-gray-300 dark:border-gray-600 
                          focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="correo@ejemplo.com"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium mb-1 dark:text-gray-300">
               Contraseña
             </label>
             <input
               type="password"
+              {...register("password")}
               className="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 
                          dark:text-white border border-gray-300 dark:border-gray-600 
                          focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="********"
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          {/* Confirm password */}
           <div>
             <label className="block text-sm font-medium mb-1 dark:text-gray-300">
               Confirmar contraseña
             </label>
             <input
               type="password"
+              {...register("password_confirm")}
               className="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 
                          dark:text-white border border-gray-300 dark:border-gray-600 
                          focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="********"
             />
+            {errors.password_confirm && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password_confirm.message}
+              </p>
+            )}
           </div>
 
-          {/* Botón */}
           <button
-            type="button"
+            type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 
                        rounded-lg transition"
           >
@@ -131,7 +281,6 @@ export function Register() {
           </button>
         </form>
 
-        {/* Enlace a login */}
         <p className="text-center text-sm mt-4 text-gray-600 dark:text-gray-400">
           ¿Ya tienes cuenta?{" "}
           <Link

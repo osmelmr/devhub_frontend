@@ -11,6 +11,7 @@ export const CloudinaryExample = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      console.log(e.target.files[0]);
       setFile(e.target.files[0]);
     }
   };
@@ -24,24 +25,24 @@ export const CloudinaryExample = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", UPLOAD_PRESET);
+    console.log(formData.get("file"));
+    // try {
+    //   const response = await fetch(
+    //     `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    //     {
+    //       method: "POST",
+    //       body: formData,
+    //     }
+    //   );
 
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-      setImage(data.secure_url); // guardamos la URL de la imagen
-    } catch (error) {
-      console.error("Error al subir la imagen:", error);
-      alert("Error al subir la imagen");
-    } finally {
-      setLoading(false);
-    }
+    //   const data = await response.json();
+    //   setImage(data.secure_url); // guardamos la URL de la imagen
+    // } catch (error) {
+    //   console.error("Error al subir la imagen:", error);
+    //   alert("Error al subir la imagen");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
