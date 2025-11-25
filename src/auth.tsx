@@ -2,23 +2,30 @@ import { createContext, useEffect, useState, type ReactNode } from "react";
 import { getMe, getTokens } from "./apis/authApis";
 import type { UserBase } from "./types/usersTypes";
 
+interface LoginType {
+  username: string;
+  password: string;
+}
+
 interface ContextType {
   user: UserBase | null;
   logout: () => void;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => {};
+  login: ({}: LoginType) => {};
 }
 
 export const AuthContext = createContext<ContextType | null>(null);
 
-export const AuthCOntextProvider: React.FC<{ children: ReactNode }> = ({
+export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<UserBase | null>(null);
 
   useEffect(() => {
+    console.log(user);
     const getUser = async () => {
       const access = localStorage.getItem("access");
+      console.log(access);
       if (access) {
         const data = await getMe(access);
         setUser(data);
@@ -27,10 +34,15 @@ export const AuthCOntextProvider: React.FC<{ children: ReactNode }> = ({
     getUser();
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = async ({ username, password }: LoginType) => {
     const data = await getTokens(username, password);
     localStorage.setItem("access", data.access);
     localStorage.setItem("refresh", data.refresh);
+    console.log("");
+    console.log("access :", data.access);
+    console.log("");
+    console.log("refresh :", data.refresh);
+    console.log("");
     const user = await getMe(data.access);
     setUser(user);
   };

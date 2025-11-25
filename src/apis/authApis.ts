@@ -4,7 +4,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 // Obtener información del usuario actual
 export const getMe = async (token: string): Promise<UserBase> => {
-  const res = await fetch(`${BASE_URL}/users/me/`, {
+  const res = await fetch(`${BASE_URL}users/me/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
