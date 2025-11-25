@@ -70,10 +70,3 @@ export const deleteUsers = async (
   if (!res.ok) throw new Error("Error al eliminar usuarios");
   return res.json();
 };
-
-// Obtener información del usuario actual
-export const getMe = async (): Promise<UserBase> => {
-  const res = await fetch(`${BASE_URL}me/`);
-  if (!res.ok) throw new Error("Error al obtener usuario actual");
-  return res.json();
-};
