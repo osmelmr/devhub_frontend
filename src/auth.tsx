@@ -28,12 +28,12 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
       console.log(access);
       if (access) {
         const data = await getMe(access);
+        console.log(data);
         setUser(data);
       }
     };
     getUser();
   }, []);
-
   const login = async ({ username, password }: LoginType) => {
     const data = await getTokens(username, password);
     localStorage.setItem("access", data.access);

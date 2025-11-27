@@ -3,7 +3,8 @@ import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { createUser } from "../apis/usersApis";
+import { registerUser } from "../apis/usersApis";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = z
   .object({
@@ -70,7 +71,7 @@ export function Register() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
-
+  const navigate = useNavigate();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
@@ -121,7 +122,10 @@ export function Register() {
 
     data.avatar_url = url;
 
-    const res = await createUser(data);
+    const res = await registerUser(data);
+    localStorage.setItem("access", res.access);
+    localStorage.setItem("refresh", res.refresh);
+    navigate("/");
     console.log(res);
   };
 

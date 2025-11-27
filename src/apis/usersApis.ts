@@ -4,6 +4,7 @@ import type {
   UserCreate,
   UserUpdate,
   UserList,
+  UserRegister,
 } from "../types/usersTypes";
 
 const BASE_URL = "http://127.0.0.1:8000/api/v1/users/";
@@ -16,7 +17,7 @@ export const getUsers = async (): Promise<UserList[]> => {
 };
 
 // Obtener un usuario por ID
-export const getUserById = async (id: string): Promise<UserBase> => {
+export const getUserById = async (id: string): Promise<UserRegister> => {
   const res = await fetch(`${BASE_URL}${id}/`);
   if (!res.ok) throw new Error("Error al obtener usuario");
   return res.json();
@@ -25,6 +26,17 @@ export const getUserById = async (id: string): Promise<UserBase> => {
 // Crear un nuevo usuario
 export const createUser = async (data: UserCreate): Promise<UserBase> => {
   const res = await fetch(`${BASE_URL}create/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Error al crear usuario");
+  return res.json();
+};
+
+// Registrar un nuevo usuario
+export const registerUser = async (data: UserCreate): Promise<UserRegister> => {
+  const res = await fetch(`${BASE_URL}register/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

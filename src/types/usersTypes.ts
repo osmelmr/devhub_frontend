@@ -12,6 +12,11 @@ export interface UserBase {
   projects?: number[];
 }
 
+export interface UserRegister {
+  access: string;
+  refresh: string;
+  user: UserBase;
+}
 // Para crear un usuario
 export interface UserCreate extends Omit<UserBase, "id" | "projects"> {
   password: string; // obligatorio al crear
