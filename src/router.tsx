@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import { TodosMain } from "./projects/todo-list/TodosMain";
 import { CloudinaryExample } from "./components/CloudinaryExample";
+import { Profile } from "./pages/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "projects/todo-list",
         element: <TodosMain />,
+      },
+      {
+        path: "account",
+        element: <Profile />,
       },
     ],
   },
