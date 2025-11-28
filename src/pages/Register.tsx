@@ -6,6 +6,7 @@ import { registerSchema, type RegisterFormData } from "../types/formUserType";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { uploadImage } from "../apis/cloudinaryApis";
+import type { UserCreate } from "../types/usersTypes";
 
 export function Register() {
   const {
@@ -44,21 +45,29 @@ export function Register() {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
   const onSubmit = async (data: RegisterFormData) => {
-    let url = "";
+    let avatar_url = "";
+    let avatar_public_id = "";
 
     if (data.avatar_file && data.avatar_file[0]) {
       try {
         const res = await uploadImage("avatar", data.avatar_file[0]);
-        url = res.secure_url;
+        avatar_url = res.secure_url;
+        avatar_public_id = res.public_id;
       } catch {
         console.log("error al guardar imagen");
       }
     }
+    const newData: UserCreate = {
+      avatar_url: avatar_url ? avatar_url : undefined,
+      avatar_public_id: avatar_public_id ? avatar_public_id : undefined,
+      username: data.username,
+      password: data.password,
+      first_name: data.first_name,
+      email: data.email,
+    };
 
-    data.avatar_url = url;
-    delete data.avatar_file;
     try {
-      await registerUser(data);
+      await registerUser(newData);
       navigate("/");
     } catch (error) {
       console.log("error al crear el usuario");

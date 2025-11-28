@@ -10,6 +10,7 @@ export interface UserBase {
   role?: "admin" | "viewer";
   avatar_url?: string;
   projects?: number[];
+  avatar_public_id?: string;
 }
 
 export interface UserRegister {
