@@ -2,65 +2,10 @@ import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { registerUser } from "../apis/usersApis";
+import { registerSchema, type RegisterFormData } from "../types/formUserType";
 import { useNavigate } from "react-router-dom";
-
-const registerSchema = z
-  .object({
-    username: z
-      .string()
-      .min(1, "El usuario es obligatorio")
-      .max(50, "Máximo 50 caracteres"),
-
-    password: z
-      .string()
-      .min(6, "La contraseña debe tener al menos 6 caracteres")
-      .max(100, "Máximo 100 caracteres"),
-
-    password_confirm: z.string().min(6, "Debes confirmar la contraseña"),
-
-    first_name: z
-      .string()
-      .max(100, "Máximo 100 caracteres")
-      .optional()
-      .or(z.literal("")),
-
-    email: z.string().email("Correo no válido").optional().or(z.literal("")),
-
-    avatar_url: z
-      .string()
-      .url("Debe ser una URL válida")
-      .optional()
-      .or(z.literal("")),
-
-    avatar_file: z
-      .any()
-      .optional()
-      .refine(
-        (fileList) => {
-          if (!fileList) return true;
-          const file = fileList[0];
-          if (!file) return true;
-
-          const maxSize = 10 * 1024 * 1024;
-          if (file.size > maxSize) return false;
-
-          const allowed = ["image/jpeg", "image/png", "image/webp"];
-          return allowed.includes(file.type);
-        },
-        {
-          message:
-            "Debe ser una imagen válida (JPG, PNG, WEBP) de menos de 10 MB",
-        }
-      ),
-  })
-  .refine((data) => data.password === data.password_confirm, {
-    message: "Las contraseñas no coinciden",
-    path: ["password_confirm"],
-  });
-
-type RegisterFormData = z.infer<typeof registerSchema>;
+import { useAuth } from "../hooks/useAuth";
+import { uploadImage } from "../apis/cloudinaryApis";
 
 export function Register() {
   const {
@@ -71,11 +16,9 @@ export function Register() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
-  const navigate = useNavigate();
+
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
-
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -98,35 +41,28 @@ export function Register() {
     }
   };
 
-  const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
-
+  const { registerUser } = useAuth();
+  const navigate = useNavigate();
   const onSubmit = async (data: RegisterFormData) => {
     let url = "";
 
     if (data.avatar_file && data.avatar_file[0]) {
-      const formData = new FormData();
-      formData.append("file", data.avatar_file[0]);
-      formData.append("upload_preset", "portfolio_avatars");
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const res = await response.json();
-      url = res.secure_url;
+      try {
+        const res = await uploadImage("avatar", data.avatar_file[0]);
+        url = res.secure_url;
+      } catch {
+        console.log("error al guardar imagen");
+      }
     }
 
     data.avatar_url = url;
-
-    const res = await registerUser(data);
-    localStorage.setItem("access", res.access);
-    localStorage.setItem("refresh", res.refresh);
-    navigate("/");
-    console.log(res);
+    delete data.avatar_file;
+    try {
+      await registerUser(data);
+      navigate("/");
+    } catch (error) {
+      console.log("error al crear el usuario");
+    }
   };
 
   return (

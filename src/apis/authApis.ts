@@ -1,4 +1,4 @@
-import type { UserBase } from "../types/usersTypes";
+import type { UserBase, UserCreate, UserRegister } from "../types/usersTypes";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -34,4 +34,14 @@ export const getTokens = async (username: string, password: string) => {
     console.error("Error al iniciar sesión:", error);
     return null;
   }
+};
+
+export const registerApi = async (data: UserCreate): Promise<UserRegister> => {
+  const res = await fetch(`${BASE_URL}users/register/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Error al crear usuario");
+  return res.json();
 };

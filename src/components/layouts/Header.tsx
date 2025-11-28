@@ -3,33 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toggleTeme } from "../../redux/temeSlice";
+import { useAuth } from "../../hooks/useAuth";
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
   const darkMode = useAppSelector((teme) => teme.teme);
   const dispatch = useAppDispatch();
 
-  const [user, setUser] = useState<{ name?: string; username?: string } | null>(
-    null
-  );
+  const { isAuthenticated: isAuth, logout, user } = useAuth();
 
   const userMenuRef = useRef<HTMLLIElement | null>(null);
   const navigate = useNavigate();
-
-  // Simulación de usuario
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (true) {
-      setIsAuth(true);
-      setUser({ name: "Osmel", username: "osmel.dev" });
-    } else {
-      setIsAuth(false);
-      setUser(null);
-    }
-  }, []);
 
   // Aplicar tema dark/light en <html>
   useEffect(() => {
@@ -51,9 +36,7 @@ const Header: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsAuth(false);
-    setUser(null);
+    logout();
     navigate("/login");
   };
 
@@ -134,12 +117,16 @@ const Header: React.FC = () => {
                 className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
               >
                 <img
-                  src="https://res.cloudinary.com/dctwk3rlf/image/upload/v1763953034/fdn44ch37fuhcjivb6br.png"
+                  src={
+                    user?.avatar_url
+                      ? user.avatar_url
+                      : "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763953034/fdn44ch37fuhcjivb6br.png"
+                  }
                   alt="avatar"
                   className="w-6 h-6 rounded-full object-cover"
                 />
                 <span className="font-semibold">
-                  {user?.name ? user.name : user?.username}
+                  {user?.first_name ? user.first_name : user?.username}
                 </span>
                 ▼
               </button>
