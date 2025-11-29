@@ -5,7 +5,8 @@ export const Profile = () => {
   const { user } = useAuth();
   const handleClick = async () => {
     try {
-      await deleteAvatar();
+      const data = await deleteAvatar();
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
