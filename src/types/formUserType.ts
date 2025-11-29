@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    username: z
+    email: z
       .string()
-      .min(1, "El usuario es obligatorio")
+      .email("debe ser un email valido")
       .max(50, "Máximo 50 caracteres"),
 
     password: z
@@ -20,7 +20,11 @@ export const registerSchema = z
       .optional()
       .or(z.literal("")),
 
-    email: z.string().email("Correo no válido").optional().or(z.literal("")),
+    username: z
+      .string()
+      .max(50, "Máximo 50 caracteres")
+      .optional()
+      .or(z.literal("")),
 
     avatar_url: z
       .string()

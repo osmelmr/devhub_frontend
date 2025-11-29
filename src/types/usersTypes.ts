@@ -3,10 +3,10 @@
 // Base que refleja el usuario del backend
 export interface UserBase {
   id: string;
-  username: string;
+  username?: string | undefined;
   first_name?: string;
   last_name?: string;
-  email?: string;
+  email: string;
   role?: "admin" | "viewer";
   avatar_url?: string;
   projects?: number[];
