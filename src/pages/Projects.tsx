@@ -6,7 +6,8 @@ interface Project {
   title: string;
   slug: string;
   description: string;
-  thumbnail: string;
+  thumbnail_dark: string;
+  thumbnail_light: string;
   tech_stack: string[];
   status: "draft" | "published";
 }
@@ -20,9 +21,10 @@ export const Projects: React.FC = () => {
       title: "Todo List",
       slug: "todo-list",
       description: "Gestor de tareas con React y Redux Toolkit.",
-      thumbnail: dark
-        ? "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763957570/fcseiouw9htgnjjjkrrt.png"
-        : "https://i.imgur.com/VZevIct.png",
+      thumbnail_dark:
+        "https://source.unsplash.com/400x250/?dashboard,developer",
+      thumbnail_light:
+        "https://source.unsplash.com/400x250/?dashboard,developer",
       tech_stack: ["React", "TypeScript", "Redux Toolkit"],
       status: "published",
     },
@@ -32,7 +34,9 @@ export const Projects: React.FC = () => {
       slug: "weather-app",
       description:
         "Aplicación meteorológica con API externa y hooks personalizados.",
-      thumbnail: "https://source.unsplash.com/400x250/?weather,app",
+      thumbnail_dark: "https://source.unsplash.com/400x250/?weather,app",
+      thumbnail_light:
+        "https://source.unsplash.com/400x250/?dashboard,developer",
       tech_stack: ["React", "Vite", "Tailwind", "OpenWeather API"],
       status: "published",
     },
@@ -41,7 +45,10 @@ export const Projects: React.FC = () => {
       title: "Portfolio CMS",
       slug: "portfolio-cms",
       description: "Panel para gestionar los proyectos de DevHub.",
-      thumbnail: "https://source.unsplash.com/400x250/?dashboard,developer",
+      thumbnail_dark:
+        "https://source.unsplash.com/400x250/?dashboard,developer",
+      thumbnail_light:
+        "https://source.unsplash.com/400x250/?dashboard,developer",
       tech_stack: ["Django REST", "React", "JWT Auth"],
       status: "draft",
     },
@@ -60,13 +67,7 @@ export const Projects: React.FC = () => {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow"
           >
             <img
-              src={
-                project.id === "1"
-                  ? dark
-                    ? "https://res.cloudinary.com/dctwk3rlf/image/upload/v1763957570/fcseiouw9htgnjjjkrrt.png"
-                    : "https://i.imgur.com/VZevIct.png"
-                  : project.thumbnail
-              }
+              src={dark ? project.thumbnail_dark : project.thumbnail_light}
               alt={project.title}
               className="w-full h-48 object-cover"
             />
