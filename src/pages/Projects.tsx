@@ -31,7 +31,7 @@ export const Projects: React.FC = () => {
     {
       id: "2",
       title: "Weather App",
-      slug: "weather-app",
+      slug: "pocket-store",
       description:
         "Aplicación meteorológica con API externa y hooks personalizados.",
       thumbnail_dark: "https://source.unsplash.com/400x250/?weather,app",

@@ -9,6 +9,9 @@ import Contact from "./pages/Contact";
 import { TodosMain } from "./projects/todo-list/TodosMain";
 import { CloudinaryExample } from "./components/CloudinaryExample";
 import { Profile } from "./pages/Profile";
+import { StoreLayout } from "./projects/pocket-store/layouts/StoreLayout";
+import { AdminPage } from "./projects/pocket-store/pages/Admin";
+import { StorePage } from "./projects/pocket-store/pages/Store";
 
 export const router = createBrowserRouter([
   {
@@ -20,8 +23,8 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "projects",
-        element: <Projects />,
+        path: "account",
+        element: <Profile />,
       },
       {
         path: "about",
@@ -32,12 +35,26 @@ export const router = createBrowserRouter([
         element: <Contact />,
       },
       {
+        path: "projects",
+        element: <Projects />,
+      },
+      {
         path: "projects/todo-list",
         element: <TodosMain />,
       },
       {
-        path: "account",
-        element: <Profile />,
+        path: "projects/pocket-store/",
+        element: <StoreLayout />,
+        children: [
+          {
+            path: "admin",
+            element: <AdminPage />,
+          },
+          {
+            path: "",
+            element: <StorePage />,
+          },
+        ],
       },
     ],
   },

@@ -41,7 +41,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 transition-colors">
+    <header className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-100 transition-colors">
       <nav className="container mx-auto flex items-center justify-between p-4">
         {/* LOGO */}
         <Link
