@@ -1,4 +1,4 @@
-import type { Product } from "../../types/products";
+import type { Product } from "../../api/types/products";
 
 /* Componente tarjeta individual para la Store (grilla visual y atractiva) */
 export const ProductCard = ({ product }: { product: Product }) => {
@@ -6,7 +6,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
     <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden flex flex-col">
       <div className="relative h-44 md:h-56 w-full overflow-hidden">
         <img
-          src={product.image}
+          src={product.image ? product.image : ""}
           alt={product.title}
           className="w-full h-full object-cover"
         />
@@ -28,7 +28,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
             <span className="text-xl font-bold">
               ${product.price.toFixed(2)}
             </span>
-            <div className="text-xs text-gray-400">by {product.owner}</div>
+            <div className="text-xs text-gray-400">by {product.owner_name}</div>
           </div>
 
           <div className="flex items-center gap-2">

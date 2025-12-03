@@ -12,6 +12,7 @@ import { Profile } from "./pages/Profile";
 import { StoreLayout } from "./projects/pocket-store/layouts/StoreLayout";
 import { AdminPage } from "./projects/pocket-store/pages/Admin";
 import { StorePage } from "./projects/pocket-store/pages/Store";
+import { AddProductPage } from "./projects/pocket-store/pages/AddProductPage";
 
 export const router = createBrowserRouter([
   {
@@ -47,12 +48,16 @@ export const router = createBrowserRouter([
         element: <StoreLayout />,
         children: [
           {
+            path: "",
+            element: <StorePage />,
+          },
+          {
             path: "admin",
             element: <AdminPage />,
           },
           {
-            path: "",
-            element: <StorePage />,
+            path: "admin/create",
+            element: <AddProductPage />,
           },
         ],
       },

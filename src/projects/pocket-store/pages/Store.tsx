@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { mockProducts } from "../mocks";
+// import { mockProducts } from "../mocks";
 import { ProjectHeader } from "../components/layout/ProjectHeader";
 import { CartSidebar } from "../components/store/CartSidebar";
 import { ProductCard } from "../components/store/ProductCard";
+import { useProducts } from "../hooks/useProducts";
 
 export const StorePage = () => {
   const [openCart, setOpenCart] = useState(false);
-
+  const { data: mockProducts, isLoading, error } = useProducts();
+  if (error) {
+    return <p>no carga</p>;
+  }
+  if (isLoading) {
+    return <p>...cargando</p>;
+  }
   return (
     <>
       <ProjectHeader title="Mini Store" />
@@ -46,9 +53,8 @@ export const StorePage = () => {
 
           {/* Grilla */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockProducts.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
+            {mockProducts &&
+              mockProducts.map((p) => <ProductCard key={p.id} product={p} />)}
           </div>
         </div>
 

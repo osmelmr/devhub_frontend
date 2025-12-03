@@ -11,9 +11,11 @@ export const AdminPage = () => {
         {/* Controles superiores: crear, eliminar varios, búsqueda */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <button className="px-3 py-2 bg-green-600 text-white rounded-md">
-              Crear Producto
-            </button>
+            <a href="admin/create">
+              <button className="px-3 py-2 bg-green-600 text-white rounded-md">
+                Crear Producto
+              </button>
+            </a>
             <button className="px-3 py-2 border rounded-md">
               Eliminar seleccionados
             </button>

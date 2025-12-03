@@ -5,11 +5,16 @@ import { router } from "./router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { AuthContextProvider } from "./auth";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <AuthContextProvider>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </AuthContextProvider>
   </Provider>
 );
